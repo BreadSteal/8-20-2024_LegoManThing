@@ -37,7 +37,7 @@ public class MyAvatar extends JPanel
 		
 		/* This is the anchor point for the MiniFig (x,y) -> (mid,top) */
 		int mid = currentWidth / 2;
-		int top = 50;
+		int top = currentHeight / 6;
 		
 		/* This is the scaler that is used to calculate the dimensions (height / width) 
 		 * of each of the MiniFig components. It uses the Math.min() function to select
@@ -47,14 +47,29 @@ public class MyAvatar extends JPanel
 		 */
 		double scaleFactor = Math.min(currentWidth/(double)INITIAL_WIDTH,currentHeight/(double)INITIAL_HEIGHT );
 		
-		Point anchor = new Point(250, 250);
 		// TODO: 1. Instantiate a new Point object called "anchor". Use "mid" as your x value and
 		//       "top" as your y value.
+		Point anchor = new Point(mid, top);
 		MiniFig bob = new MiniFig(g, scaleFactor, anchor);
 		MiniFig robert = bob;
-		robert.setTorsoColor(Color.RED);
-
+		//MiniFig bobby2 = new MiniFig(g, scaleFactor / 1.25, anchor2);
+		//MiniFig robert2 = bobby2;
+		//MiniFig bobby3 = new MiniFig(g, scaleFactor / 1.75, anchor);
+		//MiniFig robert3 = bobby3;
+		robert.setTorsoColor(Color.BLACK);
+		robert.setBeltColor(Color.RED);
+		robert.setEyeColor(Color.BLACK);
+		robert.setFootColor(Color.BLACK);
+		robert.setLegColor(Color.BLACK);
+		robert.setHandColor(Color.BLACK);
+		robert.setHeadColor(Color.WHITE);
+		robert.setOutlineColor(Color.WHITE);
+		robert.setArmColor(Color.BLACK);
+		robert.setHandHoleColor(Color.GRAY);
 		robert.draw();
+		//robert2.setHandHoleColor(Color.WHITE);
+		//robert2.draw();
+		//robert3.draw();
 
 		// TODO: 2. Instantiate a new MiniFig object and give the reference variable a name of a person, 
 		//       such as "bob". Use the MiniFig constructor with the following
@@ -74,11 +89,57 @@ public class MyAvatar extends JPanel
 		//       base of the MiniFig, right between its feet. 
 		//       Replace the hard-coded value of grassYOffset with the y value 
 		//       of the returned point.
-		int grassYOffset = 400;
+
+		Point feet = bob.getBaseMidPoint();
+		int figYpos = (int)feet.getY();
+		System.out.println(figYpos);
+
+		Point pcap = bob.getCapPoint();
+		int capy = (int)pcap.getY();
+		int capx = (int)pcap.getX();
+		int facewidth = bob.getFaceWidth();
+		int faceheight = bob.getFaceHeight();
+		Color brownbelt = new Color (145, 75, 5);
+		int halffacewidth = (facewidth / 2);
+		int thirdfacewidth = (faceheight / 3);
+		int halffaceheight = (faceheight / 2);
+
+		Point phand = bob.getRightHandCenterPoint();
+		int handy = (int)phand.getY();
+		int handx = (int)phand.getX();
 		
+
+		g.setColor(brownbelt);
+		//g.fillOval(capx - halffacewidth, capy, facewidth, faceheight);
+
+		g.setColor(Color.BLACK);
+		g.fillOval(capx - halffacewidth, capy + halffaceheight, facewidth, faceheight / 3);
+		g.fillOval(capx - halffacewidth, capy, facewidth / 3, faceheight / 3);
+		g.fillOval(capx + thirdfacewidth / 2, capy, facewidth / 3, faceheight / 3);
+		g.setColor(Color.CYAN);
+		g.fillRect(capx - halffacewidth * 2, capy - thirdfacewidth * 2, facewidth * 2, faceheight / 2);
+		g.fillRect(capx - halffacewidth * 2, capy - thirdfacewidth, facewidth / 2, faceheight / 2);
+		g.fillRect(capx + halffacewidth, capy - thirdfacewidth, facewidth / 2, faceheight / 2);
+		g.setColor(brownbelt);
+		g.fillRect(handx - thirdfacewidth, handy - halffaceheight * 3, facewidth/2, faceheight * 2);
+		g.setColor(Color.CYAN);
+		g.fillRect(handx - facewidth, handy - halffaceheight * 3, halffacewidth * 4, faceheight/2 );
+		g.fillRect(handx - halffacewidth * 2, handy - halffaceheight * 2, halffacewidth * 1, faceheight/2 );
+		g.fillRect(handx + halffacewidth, handy - halffaceheight * 2, halffacewidth * 1, faceheight/2 );
+
 		Color grassGreen = new Color (60,80,38);
+		Color grassGreener = new Color (60,145,38);
 		g.setColor(grassGreen);
-		g.fillRect(0, grassYOffset, currentWidth, currentHeight - grassYOffset);
+		g.fillRect(0, figYpos, currentWidth, currentHeight);
+		g.setColor(grassGreener);
+		g.fillRect(0, figYpos, currentWidth, currentHeight / 25);
+		g.setColor(Color.WHITE);
+		g.fillRect(currentWidth / 7, currentHeight / 7, currentWidth / 7, currentHeight / 25);
+		g.fillRect(currentWidth / 10, currentHeight / 8, currentWidth / 7, currentHeight / 25);
+
+		g.fillRect(currentWidth - currentWidth / 4, currentHeight / 9, currentWidth / 7, currentHeight / 25);
+		g.fillRect(currentWidth - currentWidth / 5, currentHeight / 11, currentWidth / 7, currentHeight / 25);
+
 
 		// TODO: 7. Create an Alias of for your MiniFig object and change the torso color of the alias.
 		//       If in step 2 you used the variable name "bob", you can create an alias named "robert"
@@ -99,7 +160,7 @@ public class MyAvatar extends JPanel
 	 */
 	public MyAvatar()
 	{
-		setBackground(Color.white);
+		setBackground(Color.GRAY);
 		setPreferredSize(new Dimension(INITIAL_WIDTH, INITIAL_HEIGHT));
 	}
 
@@ -107,6 +168,7 @@ public class MyAvatar extends JPanel
 	 * Sets up a JFrame and the MiniFigDriver panel.
 	 * @param args unused
 	 */
+
 	public static void main(String[] args)
 	{
 		JFrame frame = new JFrame("MyAvatar");
@@ -115,4 +177,5 @@ public class MyAvatar extends JPanel
 		frame.pack();
 		frame.setVisible(true);
 	}
+	
 }
